@@ -1,0 +1,6 @@
+repos:
+  - repo: git://github.com/jumanjihouse/pre-commit-hooks
+    rev: 2.1.5
+    hooks:
+      - id: shfmt
+        args: ['-l', '-i', '2', '-ci', '-sr', '-w']
