@@ -19,7 +19,7 @@
 > Add to your `pre-commit-config.yaml`:
 ```
 - repo: https://github.com/FalcoSuessgott/pre-commit-gitlab-ci
-  rev: main
+  rev: v0.0.1
   hooks:
     - id: gitlab-ci
       args:
