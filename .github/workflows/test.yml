@@ -1,0 +1,16 @@
+name: test
+
+on: push
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Run tests
+      run: bash test.sh
+      env:
+        GITLAB_SERVER_URL: "github.com"
+        GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}

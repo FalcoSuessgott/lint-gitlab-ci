@@ -1,0 +1,9 @@
+stages:
+  - lint
+  - test
+  - release
+
+lint:
+  image: "noimage"
+  after_script:
+    - echo wrong
