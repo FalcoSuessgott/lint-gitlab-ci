@@ -1,0 +1,6 @@
+- id: gitlab-ci
+  name: Validate .gitlab-ci
+  description: Checks .gitlab-ci.yml is valid
+  entry: verify-gitlab-ci.sh
+  language: script
+  files: .gitlab-ci.yml
