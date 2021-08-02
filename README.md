@@ -14,10 +14,9 @@
 * `curl`
 
 # Prerequisites
-> you will need to export `GITLAB_TOKEN`, otherwise you will receive `401 Unauthorized`
+> you will need to export `GITLAB_TOKEN`, otherwise you will receive `401 Unauthorized`:
 ```bash
 export GITLAB_TOKEN="abc123"
-pre-commit run
 ```
 
 # Usage
@@ -36,7 +35,7 @@ pre-commit run
   rev: v0.0.2
   hooks:
     - id: gitlab-ci
-      args: .custom-ci-file.yml
+      args: [ ".custom-ci-file.yml" ]
 ```
 
 ## custom Gitlab Server URL
