@@ -1,109 +1,46 @@
 #!/usr/bin/env bash
 set -e
 
-declare -a ARGS
-declare -a ENVS
+GITLAB_SERVER_URL=${GITLAB_SERVER_URL:-"gitlab.com"}
+CI_FILE=${1:-".gitlab-ci.yml"}
+TOKEN=${GITLAB_TOKEN:-""}
+URL="https://${GITLAB_SERVER_URL}/api/v4/ci/lint?include_merged_yaml=true"
 
-parse_cmdline() {
-  declare argv
-  argv=$(getopt -o e:a: --long envs:,args: -- "$@") || return
-  eval "set -- $argv"
-
-  for argv; do
-    case $argv in
-      -a | --args)
-        shift
-        ARGS+=("$1")
-        shift
-        ;;
-      -e | --envs)
-        shift
-        ENVS+=("$1")
-        shift
-        ;;
-      --)
-        shift
-        GITLAB_CI="$1"
-        [[ "$1" == "" ]] && GITLAB_CI=".gitlab-ci.yml"
-        break
-        ;;
-    esac
-  done
-}
-
-check_command() {
-  [[ $(command -v "$1") ]] || {
-    echo >&2 "$1 needs to be installed."
-    exit 1
-  }
-}
-
-check_envvar() {
-  [[ "$1" != "" ]] || {
-    echo >&2 "\"$1\" needs to be set."
-    exit 1
-  }
-}
-
-check_file() {
-  [[ -f "$1" ]] || {
-    echo >&2 "\"$1\" does not exist."
-    exit 1
-  }
+stderr() {
+  echo >&2 -e "$@"
+  exit 1
 }
 
 validate() {
-  response=$(jq --null-input --arg yaml "$(< "$1")" '.content=$yaml' | curl -s -H "PRIVATE-TOKEN: ${GITLAB_TOKEN}" "https://${GITLAB_SERVER_URL}/api/v4/ci/lint?include_merged_yaml=true" --header 'Content-Type: application/json' --data @-)
-  code=$?
+  response=$(jq --null-input --arg yaml "$(< "$CI_FILE")" '.content=$yaml' | curl -s -H "PRIVATE-TOKEN: ${TOKEN}" -H 'Content-Type: application/json' "$URL" --data @-)
 
   message=$(echo "$response" | jq '.message' | tr -d "\"")
   status=$(echo "$response" | jq '.status' | tr -d "\"")
   warnings=$(echo "$response" | jq '.warning')
   errors=$(echo "$response" | jq '.errors')
 
-  [[ "$message" != "null" ]] && {
-    echo >&2 "$message"
+  [[ "$message" != "null" ]] && stderr "$message"
+  [[ "$status" == "valid" ]] && {
+    echo "$CI_FILE validates."
+    exit 0
+  }
+  [[ "$warnings" != "null" ]] && {
+    stderr "Warnings: $warnings"
     exit 1
   }
-
-  echo -e "==> $1 is $status.\n"
-
-  [[ "$warnings" != "null" ]] && {
-    code=1
-    echo >&2 -e "Warnings: $warnings\n"
-  }
   [[ "$errors" != "null" ]] && {
-    code=1
-    echo >&2 -e "Errors: $errors\n"
+    stderr "Errors: $errors"
+    exit 1
   }
-
-  exit "$code"
-}
-
-set_env() {
-  local var var_name var_value
-  for var in "${ENVS[@]}"; do
-    var_name="${var%%=*}"
-    var_value="${var#*=}"
-
-    export "$var_name"="$var_value"
-  done
 }
 
 main() {
-  check_command "jq"
-  check_command "curl"
+  [[ "$TOKEN" == "" ]] && stderr "GITLAB_TOKEN needs to be set."
+  [[ $(command -v "yq") ]] || stderr "yq needs to be installed."
+  [[ $(command -v "curl") ]] || stderr "curl needs to be installed."
+  [[ -f "$CI_FILE" ]] || stderr "file $CI_FILE does not exist."
 
-  parse_cmdline "$@"
-
-  check_file "$GITLAB_CI"
-
-  set_env
-
-  check_envvar "GITLAB_TOKEN"
-  check_envvar "GITLAB_SERVER_URL"
-
-  validate "$GITLAB_CI"
+  validate
 }
 
-main "$@"
+[[ ${BASH_SOURCE[0]} != "$0" ]] || main "$@"
