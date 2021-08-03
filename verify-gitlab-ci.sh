@@ -7,7 +7,7 @@ TOKEN=${GITLAB_TOKEN:-""}
 URL="https://${GITLAB_SERVER_URL}/api/v4/ci/lint?include_merged_yaml=true"
 
 stderr() {
-  echo >&2 -e "$@"
+  printf >&2 "Error: %s\n" "$@"
   exit 1
 }
 
@@ -21,24 +21,24 @@ validate() {
 
   [[ "$message" != "null" ]] && stderr "$message"
   [[ "$status" == "valid" ]] && {
-    echo "$CI_FILE validates."
+    printf "%s validates.\n" "$CI_FILE"
     exit 0
   }
   [[ "$warnings" != "null" ]] && {
-    stderr "Warnings: $warnings"
+    printf "Warnings: %s\n" "$warnings"
     exit 1
   }
   [[ "$errors" != "null" ]] && {
-    stderr "Errors: $errors"
+    stderr "$errors"
     exit 1
   }
 }
 
 main() {
   [[ "$TOKEN" == "" ]] && stderr "GITLAB_TOKEN needs to be set."
-  [[ $(command -v "yq") ]] || stderr "yq needs to be installed."
+  [[ $(command -v "yq") ]] || stderr "jq needs to be installed."
   [[ $(command -v "curl") ]] || stderr "curl needs to be installed."
-  [[ -f "$CI_FILE" ]] || stderr "file $CI_FILE does not exist."
+  [[ -f "$CI_FILE" ]] || stderr "$CI_FILE does not exist."
 
   validate
 }
