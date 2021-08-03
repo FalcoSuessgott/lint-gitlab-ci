@@ -3,6 +3,7 @@
 [pre-commit-hook](https://pre-commit.com) for validating and linting your `.gitlab.ci.yml` using the [`/ci/lint/`](https://docs.gitlab.com/ee/api/lint.html) API endpoint.
 
 [![shellcheck](https://github.com/FalcoSuessgott/pre-commit-gitlab-ci/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/FalcoSuessgott/pre-commit-gitlab-ci/actions/workflows/shellcheck.yml)
+[![test](https://github.com/FalcoSuessgott/pre-commit-gitlab-ci/actions/workflows/test.yml/badge.svg)](https://github.com/FalcoSuessgott/pre-commit-gitlab-ci/actions/workflows/test.yml)
 
 # Features
 * includes merged or imported gitlab-ci configurations
@@ -10,37 +11,36 @@
 * specify custom gitlab-ci.yml
 
 # Dependencies
-* `yg`
+* `jq`
 * `curl`
 
 # Prerequisites
 > you will need to export `GITLAB_TOKEN`, otherwise you will receive `401 Unauthorized`:
-```bash
+```sh
 export GITLAB_TOKEN="abc123"
+```
+
+> export `GITLAB_SERVER_URL` in order to specify your private Gitlab Server (default is `gitlab.com`):
+```sh
+export GITLAB_SERVER_URL="custom-gitlab.tld"
 ```
 
 # Usage
 > Add to your `pre-commit-config.yaml`:
-```
-- repo: https://github.com/FalcoSuessgott/pre-commit-gitlab-ci
-  rev: v0.0.2
-  hooks:
-    - id: gitlab-ci
+```yaml
+repos:
+  - repo: https://github.com/FalcoSuessgott/pre-commit-gitlab-ci
+    rev: v0.0.3
+    hooks:
+      - id: gitlab-ci
 ```
 
 # Configuration
-## specify custom gitlab-ci.yml
-```bash
-- repo: https://github.com/FalcoSuessgott/pre-commit-gitlab-ci
-  rev: v0.0.2
-  hooks:
-    - id: gitlab-ci
-      args: [ ".custom-ci-file.yml" ]
-```
-
-## custom Gitlab Server URL
-> export `GITLAB_SERVER_URL` (defaults to `gitlab.com`) and run `pre-commit`
-```bash
-export GITLAB_SERVER_URL="custom-gitlab.tld"
-pre-commit run
+```yaml
+repos:
+  - repo: https://github.com/FalcoSuessgott/pre-commit-gitlab-ci
+    rev: v0.0.3
+    hooks:
+      - id: gitlab-ci
+        args: [ ".custom-ci-file.yml" ]
 ```
