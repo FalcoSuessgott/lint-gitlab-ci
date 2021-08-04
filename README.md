@@ -1,9 +1,9 @@
-# pre-commit-gitlab-ci
+# lint-gitlab-ci
 
 [pre-commit-hook](https://pre-commit.com) for validating and linting your `.gitlab.ci.yml` using the [`/ci/lint/`](https://docs.gitlab.com/ee/api/lint.html) API endpoint.
 
-[![shellcheck](https://github.com/FalcoSuessgott/pre-commit-gitlab-ci/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/FalcoSuessgott/pre-commit-gitlab-ci/actions/workflows/shellcheck.yml)
-[![test](https://github.com/FalcoSuessgott/pre-commit-gitlab-ci/actions/workflows/test.yml/badge.svg)](https://github.com/FalcoSuessgott/pre-commit-gitlab-ci/actions/workflows/test.yml)
+[![shellcheck](https://github.com/FalcoSuessgott/lint-gitlab-ci/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/FalcoSuessgott/lint-gitlab-ci/actions/workflows/shellcheck.yml)
+[![test](https://github.com/FalcoSuessgott/lint-gitlab-ci/actions/workflows/test.yml/badge.svg)](https://github.com/FalcoSuessgott/lint-gitlab-ci/actions/workflows/test.yml)
 
 # Features
 * includes merged or imported gitlab-ci configurations
@@ -29,7 +29,7 @@ export GITLAB_SERVER_URL="custom-gitlab.tld"
 > Add to your `pre-commit-config.yaml`:
 ```yaml
 repos:
-  - repo: https://github.com/FalcoSuessgott/pre-commit-gitlab-ci
+  - repo: https://github.com/FalcoSuessgott/lint-gitlab-ci
     rev: v0.0.3
     hooks:
       - id: gitlab-ci
@@ -38,7 +38,7 @@ repos:
 # Configuration
 ```yaml
 repos:
-  - repo: https://github.com/FalcoSuessgott/pre-commit-gitlab-ci
+  - repo: https://github.com/FalcoSuessgott/lint-gitlab-ci
     rev: v0.0.3
     hooks:
       - id: gitlab-ci
