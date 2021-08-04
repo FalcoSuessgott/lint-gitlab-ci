@@ -19,14 +19,14 @@ jobs:
         packages: pre-commit
 
     - name: valid-gitlab-ci.yml should validate
-      run: pre-commit try-repo https://github.com/FalcoSuessgott/pre-commit-gitlab-ci gitlab-ci --ref ${GITHUB_REF##*/} --files testdata/valid-gitlab-ci.yml
+      run: pre-commit try-repo https://github.com/FalcoSuessgott/lint-gitlab-ci gitlab-ci --ref ${GITHUB_REF##*/} --files testdata/valid-gitlab-ci.yml
       env:
         GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
 
     - name: invalid-gitlab-ci.yml should fail
       id: failing_test
       run: |
-        pre-commit try-repo https://github.com/FalcoSuessgott/pre-commit-gitlab-ci gitlab-ci --ref ${GITHUB_REF##*/} --files testdata/invalid-gitlab-ci.yml || true
+        pre-commit try-repo https://github.com/FalcoSuessgott/lint-gitlab-ci gitlab-ci --ref ${GITHUB_REF##*/} --files testdata/invalid-gitlab-ci.yml || true
       env:
         GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
 
