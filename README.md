@@ -22,7 +22,7 @@ export GITLAB_TOKEN="abc123"
 
 > export `GITLAB_SERVER_URL` in order to specify your private Gitlab Server (default is `gitlab.com`):
 ```sh
-export GITLAB_SERVER_URL="custom-gitlab.tld"
+export GITLAB_SERVER_URL="custom-gitlab.tld" # Note: without 'https://' protocol scheme prefix
 ```
 
 # Usage
