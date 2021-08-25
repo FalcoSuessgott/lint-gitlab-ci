@@ -30,7 +30,7 @@ export GITLAB_SERVER_URL="custom-gitlab.tld"
 ```yaml
 repos:
   - repo: https://github.com/FalcoSuessgott/lint-gitlab-ci
-    rev: v0.0.4
+    rev: v0.0.5
     hooks:
       - id: gitlab-ci
 ```
@@ -39,7 +39,7 @@ repos:
 ```yaml
 repos:
   - repo: https://github.com/FalcoSuessgott/lint-gitlab-ci
-    rev: v0.0.4
+    rev: v0.0.5
     hooks:
       - id: gitlab-ci
         args: [ ".custom-ci-file.yml" ]
