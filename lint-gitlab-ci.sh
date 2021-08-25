@@ -36,7 +36,7 @@ validate() {
 
 main() {
   [[ "$TOKEN" == "" ]] && stderr "GITLAB_TOKEN needs to be set."
-  [[ $(command -v "yq") ]] || stderr "jq needs to be installed."
+  [[ $(command -v "jq") ]] || stderr "jq needs to be installed."
   [[ $(command -v "curl") ]] || stderr "curl needs to be installed."
   [[ -f "$CI_FILE" ]] || stderr "$CI_FILE does not exist."
 
