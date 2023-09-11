@@ -18,9 +18,10 @@
 
 ## Prerequisites
 
-> you will need to export `GITLAB_TOKEN`, otherwise you will receive `401 Unauthorized`:
+> you will need to export `GITLAB_TOKEN` with scope `api`, otherwise you will receive `401 Unauthorized`:
 
 ```sh
+# ## token with api scope
 export GITLAB_TOKEN="abc123"
 ```
 
