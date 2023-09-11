@@ -8,7 +8,6 @@ URL="https://${GITLAB_SERVER_URL}/api/v4/ci/lint?include_merged_yaml=true"
 
 stderr() {
   printf >&2 "Error: %s\n" "$@"
-  exit 1
 }
 
 validate() {
