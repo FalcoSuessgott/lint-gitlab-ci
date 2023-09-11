@@ -5,28 +5,35 @@
 [![shellcheck](https://github.com/FalcoSuessgott/lint-gitlab-ci/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/FalcoSuessgott/lint-gitlab-ci/actions/workflows/shellcheck.yml)
 [![test](https://github.com/FalcoSuessgott/lint-gitlab-ci/actions/workflows/test.yml/badge.svg)](https://github.com/FalcoSuessgott/lint-gitlab-ci/actions/workflows/test.yml)
 
-# Features
+## Features
+
 * includes merged or imported gitlab-ci configurations
 * specify custom Gitlab Server URL
 * specify custom gitlab-ci.yml
 
-# Dependencies
+## Dependencies
+
 * `jq`
 * `curl`
 
-# Prerequisites
+## Prerequisites
+
 > you will need to export `GITLAB_TOKEN`, otherwise you will receive `401 Unauthorized`:
+
 ```sh
 export GITLAB_TOKEN="abc123"
 ```
 
 > export `GITLAB_SERVER_URL` in order to specify your private Gitlab Server (default is `gitlab.com`):
+
 ```sh
 export GITLAB_SERVER_URL="custom-gitlab.tld" # Note: without 'https://' protocol scheme prefix
 ```
 
-# Usage
+## Usage
+
 > Add to your `pre-commit-config.yaml`:
+
 ```yaml
 repos:
   - repo: https://github.com/FalcoSuessgott/lint-gitlab-ci
@@ -35,7 +42,8 @@ repos:
       - id: gitlab-ci
 ```
 
-# Configuration
+## Configuration
+
 ```yaml
 repos:
   - repo: https://github.com/FalcoSuessgott/lint-gitlab-ci
