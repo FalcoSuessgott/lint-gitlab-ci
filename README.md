@@ -1,14 +1,15 @@
-# lint-gitlab-ci
+# pre-commit-hook: lint-gitlab-ci
 
-[pre-commit-hook](https://pre-commit.com) for validating and linting your `.gitlab.ci.yml` using the [`/ci/lint/`](https://docs.gitlab.com/ee/api/lint.html) API endpoint.
+**Warning: This Hook has been updated and tested for Gitlab 16.x. There is no gurantee it works for earlier versions ([Link](https://docs.gitlab.com/ee/api/lint.html#validate-the-ci-yaml-configuration-deprecated)).**
+
+[pre-commit-hook](https://pre-commit.com) validating and linting your `.gitlab.ci.yml` using the [`/ci/lint/`](https://docs.gitlab.com/ee/api/lint.html) API endpoint.
 
 [![shellcheck](https://github.com/FalcoSuessgott/lint-gitlab-ci/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/FalcoSuessgott/lint-gitlab-ci/actions/workflows/shellcheck.yml)
-[![test](https://github.com/FalcoSuessgott/lint-gitlab-ci/actions/workflows/test.yml/badge.svg)](https://github.com/FalcoSuessgott/lint-gitlab-ci/actions/workflows/test.yml)
 
 ## Features
 
 * includes merged or imported gitlab-ci configurations
-* specify custom Gitlab Server URL
+* automatically detect Gitlab Server & Project Path by using `git remote`
 * specify custom gitlab-ci.yml
 
 ## Dependencies
@@ -25,12 +26,6 @@
 export GITLAB_TOKEN="abc123"
 ```
 
-> export `GITLAB_SERVER_URL` in order to specify your private Gitlab Server (default is `gitlab.com`):
-
-```sh
-export GITLAB_SERVER_URL="custom-gitlab.tld" # Note: without 'https://' protocol scheme prefix
-```
-
 ## Usage
 
 > Add to your `pre-commit-config.yaml`:
@@ -38,7 +33,7 @@ export GITLAB_SERVER_URL="custom-gitlab.tld" # Note: without 'https://' protocol
 ```yaml
 repos:
   - repo: https://github.com/FalcoSuessgott/lint-gitlab-ci
-    rev: v0.0.5
+    rev: v0.0.6
     hooks:
       - id: gitlab-ci
 ```
@@ -48,7 +43,7 @@ repos:
 ```yaml
 repos:
   - repo: https://github.com/FalcoSuessgott/lint-gitlab-ci
-    rev: v0.0.5
+    rev: v0.0.6
     hooks:
       - id: gitlab-ci
         args: [ ".custom-ci-file.yml" ]
